@@ -31,7 +31,7 @@ Requirements
 -----
 Content:
 
-A content directory, with Markdown files for posts. For example usage of content structure, visit the [Pelican sample](https://github.com/ametaireau/pelican/tree/master/samples).
+A content directory, with Markdown or reST files for posts. For example usage of content structure, visit the [Pelican sample](https://github.com/ametaireau/pelican/tree/master/samples).
 
 Configuration:
 
