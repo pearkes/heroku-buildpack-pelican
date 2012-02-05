@@ -3,6 +3,9 @@
 
 cat <<EOF
 ---
+addons:
+- custom_domains
+
 default_process_types:
   web: sh boot.sh
 EOF
