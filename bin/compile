@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+set -eo pipefail
+
+APACHE_VERSION="2.2.19"
+APACHE_PATH="apache"
+BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
+ROOT_DIR=$(dirname $BIN_DIR)
+BUILD_DIR=$1
+CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+NAME=$($BIN_DIR/detect $BUILD_DIR)
+PIP_DOWNLOAD_CACHE=${PIP_DOWNLOAD_CACHE:-$CACHE_DIR/pip_downloads}
+VIRTUALENV_DIRS="bin include lib"
+
+indent() {
+  RE="s/^/       /"
+  [ $(uname) == "Darwin" ] && sed -l "$RE" || sed -u "$RE"
+}
+
+virtualenv() {
+  python - "$@" <<EOF
+import sys
+sys.path.insert(0, "$ROOT_DIR/src/virtualenv-1.6.4")
+import virtualenv
+virtualenv.main()
+EOF
+}
+
+cd $BUILD_DIR
+
+# copy artifacts out of cache if exists
+mkdir -p $CACHE_DIR
+for dir in $VIRTUALENV_DIRS; do
+  cp -R $CACHE_DIR/$dir . &> /dev/null || true
+done
+
+echo "-----> Preparing virtualenv version $(virtualenv --version)"
+virtualenv --no-site-packages . | indent
+
+# create set-aside .heroku folder.
+mkdir .heroku
+
+echo "-----> Installing pelican using pip version $(bin/pip --version | awk '{print $2}')"
+PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican markdown | indent
+
+set +e
+OUT=$(virtualenv --relocatable .)
+[ $? -ne 0 ] && {
+  echo " !     Error making virtualenv relocatable"
+  echo "$OUT" | indent
+  exit 1
+}
+set -e
+
+# store new artifacts in cache
+for dir in $VIRTUALENV_DIRS $APACHE_PATH; do
+  rm -rf $CACHE_DIR/$dir
+  cp -R $dir $CACHE_DIR/
+done
+
+# update config files
+cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
+
+
+# install apache if needed
+if [ ! -d $APACHE_PATH ]; then
+  APACHE_URL="https://s3.amazonaws.com/php-lp/apache-$APACHE_VERSION.tar.gz"
+  echo "-----> Bundling Apache v$APACHE_VERSION"
+  curl --silent --max-time 60 --location $APACHE_URL | tar xz
+fi
+
+cat >>boot.sh <<EOF
+sed -i 's/Listen 80/Listen '\$PORT'/' /app/apache/conf/httpd.conf
+for var in \`env|cut -f1 -d=\`; do
+  echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
+done
+touch /app/apache/logs/error_log
+touch /app/apache/logs/access_log
+tail -F /app/apache/logs/error_log &
+tail -F /app/apache/logs/access_log &
+echo "Launching apache"
+exec /app/apache/bin/httpd -DNO_DETACH
+EOF
+
+chmod +x boot.sh
+
+# build the static site
+echo "-----> Generating static content for deploy"
+cd $BUILD_DIR
+pelican $BUILD_DIR -s pelican.conf.py $CACHE_DIR/www

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+# A pelican.conf.py file is required.
+
+if [ -f $1/pelican.conf.py ]; then
+  exit 0
+else
+  echo "A pelican.conf.py file is required"
+  exit 1
+fi
+
+# A content directory with markdown files present is required.
+
+if [ -f $1/content/index.md ]; then
+  exit 0
+else
+  echo "A index.md file is required"
+  exit 1
+fi
+
+# If there is a output/ directory present, warn.
+
+if [ -f $1/output/ ]; then
+  echo "Warning: Your output/ directory may be overwritten"
+  exit 0
+else
+  echo "Pelican"
+  exit 0
+fi
