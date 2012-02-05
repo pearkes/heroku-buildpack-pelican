@@ -5,6 +5,7 @@ set -eo pipefail
 
 APACHE_VERSION="2.2.19"
 APACHE_PATH="apache"
+COMPILE_PATH="www"
 BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
 ROOT_DIR=$(dirname $BIN_DIR)
 BUILD_DIR=$1
@@ -94,15 +95,15 @@ chmod +x boot.sh
 
 # repack cache
 mkdir -p $CACHE_DIR
-for DIR in $APACHE_PATH; do
+for DIR in $APACHE_PATH $COMPILE_PATH; do
   rm -rf $CACHE_DIR/$DIR
   cp -R $DIR $CACHE_DIR/$DIR
 done
 
-# make www
-mkdir -p $CACHE_DIR/www
+# make compiled content path
+mkdir -p $CACHE_DIR/$COMPILE_PATH
 
 # build the static site
 echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
-bin/pelican $BUILD_DIR -s pelican.conf.py -o $CACHE_DIR/www/
+bin/pelican $BUILD_DIR -s pelican.conf.py -o $CACHE_DIR/$COMPILE_PATH/
