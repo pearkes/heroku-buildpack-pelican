@@ -25,7 +25,33 @@ Example usage:
            Installing pip...............done.
     -----> Installing pelican using pip version 1.0.2
     -----> Bundling Apache v2.2.19
-    -----> Generating static content for deploy
+    -----> Generating static content for deploy with default theme
 
+Requirements
+-----
+Content:
 
-The buildpack will detect if your project is suitable for pelican if it has a pelican.conf.py file and content directory containing a markdown file. If you're new to pelican, and wish to look at possible themes or examples, check out [Bait](http://github.com/pearkes/bait).
+A content directory, with Markdown files for posts. For example usage of content structure, visit the [Pelican sample](https://github.com/ametaireau/pelican/tree/master/samples).
+
+Configuration:
+
+A 'pelican.conf.py' file must exist in the root directory of your project.
+
+Themes:
+
+For use of a custom theme, instead of Pelican's default, a 'theme' directory must exist in the root. The 'theme' directory should have the following structure:
+    
+    ├── static
+    │   ├── css
+    │   └── images
+    └── templates
+        ├── archives.html    // to display archives
+        ├── article.html     // processed for each article
+        ├── categories.html  // must list all the categories
+        ├── category.html    // processed for each category
+        ├── index.html       // the index. List all the articles
+        ├── page.html        // processed for each page
+        ├── tag.html         // processed for each tag
+        └── tags.html        // must list all the tags. Can be a tag cloud.
+        
+For more on themes, visit the [Pelican documentation](http://pelican.readthedocs.org/en/2.7.2/themes.html).
