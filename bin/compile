@@ -31,9 +31,6 @@ EOF
 
 cd $BUILD_DIR
 
-# make www
-mkdir -p $CACHE_DIR/www
-
 # copy artifacts out of cache if exists
 mkdir -p $CACHE_DIR
 for dir in $VIRTUALENV_DIRS; do
@@ -93,6 +90,9 @@ exec /app/apache/bin/httpd -DNO_DETACH
 EOF
 
 chmod +x boot.sh
+
+# make www
+mkdir -p $CACHE_DIR/www
 
 # build the static site
 echo "-----> Generating static content for deploy"
