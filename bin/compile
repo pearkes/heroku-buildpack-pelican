@@ -52,7 +52,7 @@ virtualenv --no-site-packages . | indent
 mkdir .heroku
 
 echo "-----> Installing pelican using pip version $(bin/pip --version | awk '{print $2}')"
-PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican markdown | indent
+PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --use-mirrors pelican markdown | indent
 
 set +e
 OUT=$(virtualenv --relocatable .)
@@ -97,7 +97,7 @@ chmod +x boot.sh
 # build the static site
 echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
-pelican $BUILD_DIR -s pelican.conf.py $CACHE_DIR/www
+bin/pelican $BUILD_DIR -s pelican.conf.py $CACHE_DIR/www
 
 # repack cache
 mkdir -p $CACHE_DIR
