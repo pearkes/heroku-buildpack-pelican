@@ -94,22 +94,16 @@ EOF
 chmod +x boot.sh
 
 # make compiled content path
-mkdir -p $CACHE_DIR/$COMPILE_PATH
+mkdir -p $COMPILE_PATH
 
 # build the static site
 echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
-bin/pelican $BUILD_DIR -s pelican.conf.py -o $CACHE_DIR/$COMPILE_PATH/
+bin/pelican $BUILD_DIR -s pelican.conf.py -o $COMPILE_PATH
 
 # repack cache
 mkdir -p $CACHE_DIR
-for DIR in $APACHE_PATH; do
-  rm -rf $CACHE_DIR/$DIR
-  cp -R $DIR $CACHE_DIR/$DIR
-done
-
-mkdir -p $CACHE_DIR
-for DIR in $COMPILE_PATH; do
+for DIR in $APACHE_PATH $COMPILE_PATH; do
   rm -rf $CACHE_DIR/$DIR
   cp -R $DIR $CACHE_DIR/$DIR
 done
