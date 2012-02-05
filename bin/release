@@ -4,7 +4,7 @@
 cat <<EOF
 ---
 addons:
-- custom_domains
+- custom_domains:basic
 
 default_process_types:
   web: sh boot.sh
