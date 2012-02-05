@@ -38,6 +38,14 @@ for dir in $VIRTUALENV_DIRS; do
   cp -R $CACHE_DIR/$dir . &> /dev/null || true
 done
 
+# unpack cache
+for DIR in $APACHE_PATH; do
+  rm -rf $DIR
+  if [ -d $CACHE_DIR/$DIR ]; then
+    cp -r $CACHE_DIR/$DIR $DIR
+  fi
+done
+
 echo "-----> Preparing virtualenv version $(virtualenv --version)"
 virtualenv --no-site-packages . | indent
 
@@ -65,7 +73,6 @@ done
 # update config files
 cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 
-
 # install apache if needed
 if [ ! -d $APACHE_PATH ]; then
   APACHE_URL="https://s3.amazonaws.com/php-lp/apache-$APACHE_VERSION.tar.gz"
@@ -92,3 +99,10 @@ chmod +x boot.sh
 echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
 pelican $BUILD_DIR -s pelican.conf.py $CACHE_DIR/www
+
+# repack cache
+mkdir -p $CACHE_DIR
+for DIR in $APACHE_PATH; do
+  rm -rf $CACHE_DIR/$DIR
+  cp -R $DIR $CACHE_DIR/$DIR
+done
