@@ -97,7 +97,6 @@ chmod +x boot.sh
 mkdir -p $COMPILE_PATH
 
 # build the static site
-echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
 
 if [ ! -d $BUILD_DIR/theme/templates ]; then
