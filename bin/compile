@@ -31,6 +31,11 @@ EOF
 
 cd $BUILD_DIR
 
+# move app things to www
+mkdir -p $CACHE_DIR/www
+mv * $CACHE_DIR/www
+mv $CACHE_DIR/www .
+
 # copy artifacts out of cache if exists
 mkdir -p $CACHE_DIR
 for dir in $VIRTUALENV_DIRS; do
