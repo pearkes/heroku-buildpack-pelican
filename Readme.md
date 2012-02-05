@@ -28,4 +28,4 @@ Example usage:
     -----> Generating static content for deploy
 
 
-The buildpack will detect if your project is suitable for pelican if it has a pelican.conf.py file and content file in it's root. If you're new to pelican, and wish to look at possible themes or examples, check out [Bait](http://github.com/pearkes/bait)
+The buildpack will detect if your project is suitable for pelican if it has a pelican.conf.py file and content directory containing a markdown file. If you're new to pelican, and wish to look at possible themes or examples, check out [Bait](http://github.com/pearkes/bait).
