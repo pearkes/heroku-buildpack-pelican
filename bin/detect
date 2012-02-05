@@ -4,6 +4,7 @@
 # A pelican.conf.py file is required.
 
 if [ -f $1/pelican.conf.py ]; then
+  echo "Pelican"
   exit 0
 else
   echo "A pelican.conf.py file is required"
@@ -13,6 +14,7 @@ fi
 # A content directory with markdown files present is required.
 
 if [ -f $1/content/index.md ]; then
+  echo "Pelican"
   exit 0
 else
   echo "A index.md file is required"

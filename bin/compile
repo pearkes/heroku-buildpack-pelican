@@ -2,6 +2,7 @@
 # bin/compile <build-dir> <cache-dir>
 
 set -eo pipefail
+mkdir apache
 
 APACHE_VERSION="2.2.19"
 APACHE_PATH="apache"
