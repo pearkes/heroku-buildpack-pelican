@@ -2,7 +2,7 @@ Heroku buildpack: Pelican
 ========================
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpack) for statically generated blogs and websites.
-It uses [virtualenv](http://www.virtualenv.org/), [pip](http://www.pip-installer.org/) and [Pelican](http://readthedocs.org/docs/pelican/en/2.7.2/). 
+It uses [virtualenv](http://www.virtualenv.org/), [pip](http://www.pip-installer.org/) and [Pelican](http://readthedocs.org/docs/pelican/). 
 
 Usage
 -----
@@ -31,15 +31,15 @@ Requirements
 -----
 Content:
 
-A content directory, with Markdown or reST files for posts. For example usage of content structure, visit the [Pelican sample](https://github.com/ametaireau/pelican/tree/master/samples).
+A content directory, with Markdown or reST files for posts. For example usage of content structure, check-out the [Pelican sample](https://github.com/ametaireau/pelican/tree/master/samples).
 
 Configuration:
 
-A 'pelican.conf.py' file must exist in the root directory of your project.
+A `pelican.conf.py` file must exist in the root directory of your project.
 
 Themes:
 
-For use of a custom theme, instead of Pelican's default, a 'theme' directory must exist in the root. The 'theme' directory should have the following structure:
+For use of a custom theme, instead of Pelican's default, a `theme/` directory must exist in the root. The `theme/` directory should have the following structure:
     
     ├── static
     │   ├── css
