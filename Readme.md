@@ -55,3 +55,27 @@ For use of a custom theme, instead of Pelican's default, a 'theme' directory mus
         └── tags.html        // must list all the tags. Can be a tag cloud.
         
 For more on themes, visit the [Pelican documentation](http://pelican.readthedocs.org/en/2.7.2/themes.html).
+
+Local Developement
+-----
+Installation:
+    
+    $ pip install pelican markdown pygments docutils
+    
+Generate:
+
+    $ ls 
+    content/ pelican.conf.py
+    
+    $ pelican . -s pelican.conf.py
+
+Or, with a theme:
+
+    $ ls 
+    content/ theme/ pelican.conf.py
+    
+    $ pelican . -s pelican.conf.py -t theme/
+
+Open your generated files:
+    
+    $ open output/index.html
