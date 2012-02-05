@@ -64,13 +64,10 @@ OUT=$(virtualenv --relocatable .)
 set -e
 
 # store new artifacts in cache
-for dir in $VIRTUALENV_DIRS $APACHE_PATH; do
+for dir in $VIRTUALENV_DIRS; do
   rm -rf $CACHE_DIR/$dir
   cp -R $dir $CACHE_DIR/
 done
-
-# update config files
-cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 
 # install apache if needed
 if [ ! -d $APACHE_PATH ]; then
@@ -78,6 +75,9 @@ if [ ! -d $APACHE_PATH ]; then
   echo "-----> Bundling Apache v$APACHE_VERSION"
   curl --silent --max-time 60 --location $APACHE_URL | tar xz
 fi
+
+# update config files
+cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 
 cat >>boot.sh <<EOF
 sed -i 's/Listen 80/Listen '\$PORT'/' /app/apache/conf/httpd.conf
