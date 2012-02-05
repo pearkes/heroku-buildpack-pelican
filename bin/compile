@@ -103,7 +103,13 @@ bin/pelican $BUILD_DIR -s pelican.conf.py -o $CACHE_DIR/$COMPILE_PATH/
 
 # repack cache
 mkdir -p $CACHE_DIR
-for DIR in $APACHE_PATH $COMPILE_PATH; do
+for DIR in $APACHE_PATH; do
+  rm -rf $CACHE_DIR/$DIR
+  cp -R $DIR $CACHE_DIR/$DIR
+done
+
+mkdir -p $CACHE_DIR
+for DIR in $COMPILE_PATH; do
   rm -rf $CACHE_DIR/$DIR
   cp -R $DIR $CACHE_DIR/$DIR
 done
