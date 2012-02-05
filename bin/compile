@@ -99,7 +99,14 @@ mkdir -p $COMPILE_PATH
 # build the static site
 echo "-----> Generating static content for deploy"
 cd $BUILD_DIR
-bin/pelican $BUILD_DIR -s pelican.conf.py -o $COMPILE_PATH
+
+if [ ! -d $BUILD_DIR/theme/templates ]; then
+  echo "-----> Generating static content for deploy with default theme"
+  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelican.conf.py -o $COMPILE_PATH
+else
+  echo "-----> Generating static content for deploy with custom theme"
+  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelican.conf.py -o $COMPILE_PATH -t $BUILD_DIR/theme
+fi
 
 # repack cache
 mkdir -p $CACHE_DIR
