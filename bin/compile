@@ -53,7 +53,7 @@ virtualenv --no-site-packages . | indent
 mkdir .heroku
 
 echo "-----> Installing pelican using pip version $(bin/pip --version | awk '{print $2}')"
-PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican==2.8.0 markdown pygments docutils | indent
+PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican==3.1.0 markdown pygments docutils | indent
 
 set +e
 OUT=$(virtualenv --relocatable .)
