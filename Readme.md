@@ -12,7 +12,7 @@ Example usage:
     $ ls
     content/  pelican.conf.py
 
-    $ heroku create --stack cedar --buildpack git@github.com:pearkes/heroku-buildpack-pelican.git
+    $ heroku create --stack cedar --buildpack https://github.com/pearkes/heroku-buildpack-pelican.git
 
     $ git push heroku master
     ...
