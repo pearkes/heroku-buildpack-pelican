@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-# A pelican.conf.py file is required.
+# A pelicanconf.py file is required.
 
-if [ -f $1/pelican.conf.py ]; then
+if [ -f $1/pelicanconf.py ]; then
   echo "Pelican"
   exit 0
 else
-  echo "A pelican.conf.py file is required"
+  echo "A pelicanconf.py file is required"
   exit 1
 fi
