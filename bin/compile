@@ -11,6 +11,7 @@ ROOT_DIR=$(dirname $BIN_DIR)
 BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
+PELICAN_VERSION="3.1.1"
 
 NAME=$($BIN_DIR/detect $BUILD_DIR)
 PIP_DOWNLOAD_CACHE=${PIP_DOWNLOAD_CACHE:-$CACHE_DIR/pip_downloads}
@@ -53,7 +54,7 @@ virtualenv --no-site-packages . | indent
 mkdir .heroku
 
 echo "-----> Installing pelican using pip version $(bin/pip --version | awk '{print $2}')"
-PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican==3.1.0 markdown pygments docutils | indent
+PIP_DOWNLOAD_CACHE=$PIP_DOWNLOAD_CACHE bin/pip install --quiet --use-mirrors pelican==$PELICAN_VERSION markdown pygments docutils | indent
 
 set +e
 OUT=$(virtualenv --relocatable .)
@@ -101,10 +102,10 @@ cd $BUILD_DIR
 
 if [ ! -d $BUILD_DIR/theme/templates ]; then
   echo "-----> Generating static content for deploy with default theme"
-  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelican.conf.py -o $COMPILE_PATH
+  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelicanconf.py -o $COMPILE_PATH
 else
   echo "-----> Generating static content for deploy with custom theme"
-  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelican.conf.py -o $COMPILE_PATH -t $BUILD_DIR/theme
+  bin/pelican $BUILD_DIR -s $BUILD_DIR/pelicanconf.py -o $COMPILE_PATH -t $BUILD_DIR/theme
 fi
 
 # repack cache
