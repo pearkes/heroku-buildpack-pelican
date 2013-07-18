@@ -1,3 +1,9 @@
+**Heads up!**
+
+There is an official Pelican buildpack for Heroku available over at [getpelican/heroku-buildpack-pelican](https://github.com/getpelican/heroku-buildpack-pelican).
+
+As I'm no longer actively working on or using this one, I'd recommend using the official buildpack.
+
 Heroku buildpack: Pelican
 ========================
 
